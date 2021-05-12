@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Available CoWIN Center Details </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img src="../assets/svg/literature-review.png" class="vac-img" alt="" />
+
+  <ion-item>
+    <ion-label>State</ion-label>
+    <ionic-selectable
+      itemValueField="state_id"
+      itemTextField="state_name"
+      placeholder="Select a State"
+      [(ngModel)]="selectedState"
+      (onChange)="onStateSelect()"
+      [items]="allStates"
+      [canSearch]="true"
+    >
+      <ng-template ionicSelectableSearchFailTemplate>
+        <div padding>No state found.</div>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>District </ion-label>
+    <ionic-selectable
+      itemValueField="district_id"
+      itemTextField="district_name"
+      placeholder="Select a District"
+      [(ngModel)]="district"
+      [items]="allDistrict"
+      [canSearch]="true"
+    >
+      <ng-template ionicSelectableSearchFailTemplate>
+        <div padding>No District found.</div>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+
+  <ion-radio-group mode="ios" [(ngModel)]="age">
+    <ion-list-header color="light">
+      <ion-label>Age</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>Age (18 - 44)</ion-label>
+      <ion-radio value="18" checked></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Age ( 45+ )</ion-label>
+      <ion-radio value="45"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+  <ion-row class="ion-align-items-center"
+    ><ion-col size="12" class="ion-text-center" >
+      <ion-button (click)="checkSlot()" [disabled]="isLoading">
+        <ion-label>Search</ion-label>
+        <ion-icon name="search-circle"></ion-icon>
+      </ion-button> </ion-col
+  ></ion-row>
+  <ion-row class="ion-align-items-center">
+    <ion-col  size="12" class="ion-text-center"> <ion-spinner *ngIf="checking" name="dots"></ion-spinner></ion-col>
+  </ion-row>
+
+  <ion-grid class="ion-margin">
+    <ion-row>
+      <ion-col>Name</ion-col>
+      <ion-col>address</ion-col>
+      <ion-col>Date - From|To</ion-col>
+      <ion-col>Min Age</ion-col>
+      <ion-col>pincode</ion-col>
+      <ion-col>Capacity</ion-col>
+      <ion-col>Fee Type</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let avail of availabledata; index as i">
+      <ion-col>{{ avail.name }}</ion-col>
+      <ion-col>{{ avail.address }} {{ avail.block_name }}</ion-col>
+      <ion-col
+        >{{ avail.eachSession.date }} - {{ avail.eachSession.slots | json
+        }}</ion-col
+      >
+      <ion-col>{{ avail.min_age_limit }}</ion-col>
+      <ion-col>{{ avail.pincode }}</ion-col>
+      <ion-col>{{ avail.eachSession.available_capacity }}</ion-col>
+      <ion-col>{{ avail.fee_type }}</ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button (click)="play()">
+    <ion-icon slot="start" name="volume-high"></ion-icon>
+    Click me
+  </ion-button>
+</ion-content>
